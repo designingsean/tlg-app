@@ -1,0 +1,4 @@
+<%= render partial: "users" %>
+<p class="lead"><%= last_action(@last_action) %></p>
+<%= render partial: "period", locals: { time: 'Current', period: @current_period } %>
+<%= render partial: "period", locals: { time: 'Previous', period: @previous_period } %>

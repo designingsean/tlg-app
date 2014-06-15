@@ -3,4 +3,8 @@ Rails.application.routes.draw do
     collection do
     end
   end
+  resources :clock do
+    collection do
+    end
+  end
 end
