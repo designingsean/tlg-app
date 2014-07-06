@@ -31,8 +31,32 @@ class ClockController < ApplicationController
     redirect_to action: 'show', id: params[:id]
   end
 
+  def edit
+    @active_users = Users.active
+    @current_period = Clock::Totals.range(params[:id], (Time.now))
+  end
+
+  def add_new
+    timeIn = Time.zone.parse(params[:clock][:date] + ' ' + params[:clock][:in]).to_datetime
+    timeOut = Time.zone.parse(params[:clock][:date] + ' ' + params[:clock][:out]).to_datetime
+    clock = Clock.create(uid: params[:id], clockIn: timeIn, clockOut: timeOut)
+    if clock.save
+      flash[:success] = "Record added"
+    else
+      flash[:error] = "Record not added"
+    end
+    redirect_to action: 'edit', id: params[:id]
+  end
+
   def destroy
-    Clock.destroy(params[:id])
+    punch = Clock.find(params[:id])
+    punch.destroy
+    if punch.save
+      flash[:success] = "Record deleted"
+    else
+      flash[:error] = "Record not deleted"
+    end
+    redirect_to action: 'edit', id: punch.uid
   end
 
   private
