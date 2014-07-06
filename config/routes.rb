@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       get 'out/:id', :action => :update, :as => :update
       get 'delete/:id', :action => :destroy, :as => :destroy
       post ':id/edit', :action => :add_new, :as => :add_new
+      get 'report', :action => :report, :as => :report
     end
   end
 end

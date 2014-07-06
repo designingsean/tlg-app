@@ -1,0 +1,22 @@
+<h2>Pay Period Details</h2>
+<h3>DATERANGE</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th width="25%">Name</th>
+      <th width="25%">First Week</th>
+      <th width="25%">Second Week</th>
+      <th width="25%">Total</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @current_period.each do |user| %>
+    <tr>
+      <td><%= user.name %></td>
+      <td><%= user.weekOneTotal %></td>
+      <td><%= user.weekTwoTotal %></td>
+      <td><%= user.periodTotal %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

@@ -59,6 +59,10 @@ class ClockController < ApplicationController
     redirect_to action: 'edit', id: punch.uid
   end
 
+  def report
+    @current_period = Clock::Totals.report(Time.now - 1.week)
+  end
+
   private
     def clock_params
       params.require(:clock).permit(:uid, :clockIn, :clockOut)

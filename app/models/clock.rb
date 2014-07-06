@@ -19,6 +19,23 @@ class Clock < ActiveRecord::Base
       return [data.where(clockIn: range[:middle]..range[:end]), data.where(clockIn: range[:start]..range[:middle])]
     end
 
+    def self.report(date)
+      range = find_range(date)
+      weekOne = select("uid, SUM(totalTime) AS weekOneTotal")
+                  .where(clockIn: range[:start]..range[:middle])
+                  .group(:uid)
+      weekTwo = select("uid, SUM(totalTime) AS weekTwoTotal")
+                  .where(clockIn: range[:middle]..range[:end])
+                  .group(:uid)
+
+      return select("name, weekOneTotal, weekTwoTotal, SUM(totalTime) as periodTotal")
+              .joins(["INNER JOIN (" + weekOne.to_sql + ") weekOne ON v_clock.uid = weekOne.uid",
+                      "INNER JOIN (" + weekTwo.to_sql + ") weekTwo ON v_clock.uid = weekTwo.uid",
+                      "INNER JOIN users ON users.id = v_clock.uid"])
+              .where(clockIn: range[:start]..range[:end])
+              .group("v_clock.uid")
+    end
+
     private
       def self.find_range(date)
         init_date_mod = Time.new(2013, 1, 7).strftime("%U") % 2
