@@ -4,6 +4,10 @@ class Clock < ActiveRecord::Base
   validates :clockIn, :presence => true
   validates :uid, :presence => true
 
+  def self.last_action(user)
+    where(uid: user).last
+  end
+
   class Totals < ActiveRecord::Base
     self.table_name = "v_clock"
     self.primary_key = "id"
@@ -13,10 +17,6 @@ class Clock < ActiveRecord::Base
       range = find_range(date)
       data = where(uid: user, clockIn: range[:start]..range[:end]).order(:clockIn).reverse_order
       return [data.where(clockIn: range[:middle]..range[:end]), data.where(clockIn: range[:start]..range[:middle])]
-    end
-
-    def self.last_action(user)
-      where(uid: user).last
     end
 
     private

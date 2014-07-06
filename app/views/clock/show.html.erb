@@ -1,4 +1,8 @@
 <%= render partial: "users" %>
-<p class="lead"><%= last_action(@last_action) %></p>
-<%= render partial: "period", locals: { time: 'Current', period: @current_period } %>
-<%= render partial: "period", locals: { time: 'Previous', period: @previous_period } %>
+<div class="row">
+    <div class="col-sm-12">
+        <p class="lead"><%= last_action(@last_action) %> <%= test(@last_action) %></p>
+        <%= render partial: "period", locals: { time: 'Current', period: @current_period } %>
+        <%= render partial: "period", locals: { time: 'Previous', period: @previous_period } %>
+    </div>
+</div>

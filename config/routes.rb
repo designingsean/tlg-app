@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   end
   resources :clock do
     collection do
+      get 'in/:id', :action => :create, :as => :create
+      get 'out/:id', :action => :update, :as => :update
     end
   end
 end
